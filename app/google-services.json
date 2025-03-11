@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "40100830559",
+    "project_id": "atten123dance",
+    "storage_bucket": "atten123dance.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40100830559:android:489fb4e1daa5a993396aea",
+        "android_client_info": {
+          "package_name": "com.example.attendance_jetpack"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDue3TILVlSlSeHwzem4jvOjRN0849HTf4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40100830559:android:ba0b10940fc4616b396aea",
+        "android_client_info": {
+          "package_name": "com.example.attendancedashboard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDue3TILVlSlSeHwzem4jvOjRN0849HTf4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -74,6 +74,7 @@ dependencies {
     implementation (libs.play.services.auth)
     implementation (libs.firebase.auth.ktx)
     implementation("androidx.navigation:navigation-compose:2.8.8")
+    implementation ("com.airbnb.android:lottie-compose:6.0.0")
 
 
 

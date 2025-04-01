@@ -6,12 +6,17 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/splash"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Attendance_Jetpack"
         tools:targetApi="31">
+        <activity
+            android:name=".Cr_verification"
+            android:exported="false"
+            android:label="@string/title_activity_cr_verificaiton"
+            android:theme="@style/Theme.Attendance_Jetpack" />
         <activity
             android:name=".Teacher_verification"
             android:exported="false"
@@ -22,11 +27,7 @@
             android:exported="false"
             android:label="@string/title_activity_student_verification"
             android:theme="@style/Theme.Attendance_Jetpack" />
-        <activity
-            android:name=".verification_page"
-            android:exported="false"
-            android:label="@string/title_activity_verification_page"
-            android:theme="@style/Theme.Attendance_Jetpack" />
+
         <activity
             android:name=".Teacher_dashboard"
             android:exported="false"
@@ -39,9 +40,15 @@
             android:theme="@style/Theme.Attendance_Jetpack" />
         <activity
             android:name=".Splash_Activity"
-            android:exported="false"
+            android:exported="true"
             android:label="Attendance Dashboard"
-            android:theme="@style/Theme.Attendance_Jetpack" />
+            android:theme="@style/Theme.Attendance_Jetpack" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Signup.Signup"
             android:exported="false"
@@ -54,13 +61,13 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
+            android:label="Attendance"
             android:theme="@style/Theme.Attendance_Jetpack">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
     </application>
 

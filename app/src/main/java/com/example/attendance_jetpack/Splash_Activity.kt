@@ -43,7 +43,7 @@ class Splash_Activity : ComponentActivity() {
                 {
                     startActivity(Intent(this,MainActivity::class.java))
                     finish()
-                },5000
+                },2000
 
             )
         }
@@ -59,7 +59,8 @@ fun SplashScreen() {
 
 
     ) {
-       Icon(painter = painterResource(R.drawable.logonew), contentDescription = "")
+       Image(painter = painterResource(R.drawable.splash), contentDescription = "",
+           modifier = Modifier.size(300.dp))
     }
 }
 

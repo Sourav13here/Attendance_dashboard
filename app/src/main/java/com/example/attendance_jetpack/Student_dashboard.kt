@@ -19,7 +19,13 @@ class Student_dashboard : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Attendance_JetpackTheme {
-                Student()
+                val sampleData = listOf(
+                    AttendanceItem("Math", "1st", "Mr. Sharma", 85),
+                    AttendanceItem("Physics", "2nd", "Dr. Patel", 72),
+                    AttendanceItem("Computer Science", "3rd", "Prof. Roy", 48)
+                )
+                StudentDashboard(isCR = true,
+                    attendanceData = sampleData)
 
                 }
             }

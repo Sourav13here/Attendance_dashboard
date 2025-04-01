@@ -18,6 +18,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -63,10 +65,15 @@ fun Signup_page() {
     var confirmpassword by remember { mutableStateOf("") }
     var confirmpasswordvisible by remember { mutableStateOf(false) }
     var passwordError by remember { mutableStateOf(false) }
-
+    var department by remember { mutableStateOf("") }
+    var semester by remember { mutableStateOf("") }
     val context = LocalContext.current
 
+    val departmentOptions = listOf("CSE", "ETE", "CE", "ME")
+    val semesterOptions = listOf("1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th")
 
+    var expandedDepartment by remember { mutableStateOf(false) }
+    var expandedSemester by remember { mutableStateOf(false) }
 
 
     Scaffold(topBar = {
@@ -76,7 +83,7 @@ fun Signup_page() {
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "SIGN IN",
+                    text = "SIGN UP",
                     modifier = Modifier.wrapContentSize(),
                     style = TextStyle(fontSize = 24.sp, fontStyle = FontStyle.Italic)
 
@@ -99,23 +106,23 @@ fun Signup_page() {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(20.dp)
+                .padding(start = 20.dp, end = 20.dp)
                 .background(Color.White)
         ) {
 
             Column(
                 Modifier
                     .align(Alignment.TopCenter)
-                    .fillMaxWidth()
-                    .padding(top = 20.dp),
+                    .fillMaxWidth(),
+
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Image(
                     painter = painterResource(R.drawable.logonew),
                     contentDescription = "",
-                    Modifier.size(100.dp)
+                    Modifier.size(50.dp)
                 )
-                Spacer(modifier = Modifier.size(15.dp))
+                Spacer(modifier = Modifier.size(5.dp))
 
 
                 OutlinedTextField(value = username,
@@ -123,9 +130,10 @@ fun Signup_page() {
                     label = { Text("Username") },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
+
                 )
 
-                Spacer(modifier = Modifier.size(15.dp))
+                Spacer(modifier = Modifier.size(10.dp))
 
                 OutlinedTextField(value = email,
                     onValueChange = { email = it },
@@ -134,7 +142,7 @@ fun Signup_page() {
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                Spacer(Modifier.size(15.dp))
+                Spacer(Modifier.size(6.dp))
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -172,6 +180,72 @@ fun Signup_page() {
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth()
                     )
+                    Spacer(modifier= Modifier.size(10.dp))
+                    Box(modifier = Modifier.fillMaxWidth().clickable { expandedSemester=true }) {
+                        OutlinedTextField(
+                            value = department,
+                            onValueChange = { },
+                            readOnly = true,
+                            label = { Text("Department") },
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth().clickable { expandedSemester=true },
+                            trailingIcon = {
+                                IconButton(onClick = {expandedDepartment=true}) {
+                                    Icon(painter = painterResource(id=R.drawable.baseline_arrow_drop_down_24),
+                                        contentDescription = "Dropdown")
+                                }
+                            }
+                        )
+                        DropdownMenu(
+                            expanded = expandedDepartment,
+                            onDismissRequest = { expandedDepartment = false }
+
+                        ) {
+                            departmentOptions.forEach { option ->
+                                DropdownMenuItem(
+                                    text = { Text(option) },
+                                    onClick = {
+                                        department = option
+                                        expandedDepartment = false
+                                    },
+                                    modifier = Modifier.fillMaxWidth().clickable { expandedSemester=true }
+                                )
+                            }
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.size(10.dp))
+
+                    Box(modifier = Modifier.fillMaxWidth().clickable { expandedSemester=true }) {
+                        OutlinedTextField(
+                            value = semester,
+                            onValueChange = { },
+                            readOnly = true,
+                            label = { Text("Semester") },
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth(),
+                            trailingIcon = {
+                                IconButton(onClick = {expandedSemester=true}) {
+                                    Icon(painter = painterResource(id=R.drawable.baseline_arrow_drop_down_24),
+                                        contentDescription = "Dropdown")
+                                }
+                            }
+                        )
+                        DropdownMenu(
+                            expanded = expandedSemester,
+                            onDismissRequest = { expandedSemester = false }
+                        ) {
+                            semesterOptions.forEach { option ->
+                                DropdownMenuItem(
+                                    text = { Text(option) },
+                                    onClick = {
+                                        semester = option
+                                        expandedSemester = false
+                                    }
+                                )
+                            }
+                        }
+                    }
                 } else {
                     OutlinedTextField(value = teacherId,
                         onValueChange = { teacherId = it },
@@ -182,7 +256,7 @@ fun Signup_page() {
 
                 }
 
-                Spacer(Modifier.size(15.dp))
+                Spacer(Modifier.size(10.dp))
 
                 OutlinedTextField(value = password,
                     onValueChange = { password = it },
@@ -206,7 +280,7 @@ fun Signup_page() {
                     }
 
                 )
-                Spacer(Modifier.size(15.dp))
+                Spacer(Modifier.size(10.dp))
 
                 OutlinedTextField(value = confirmpassword,
                     onValueChange = {
@@ -247,7 +321,9 @@ fun Signup_page() {
                     userType=userType,
                     studentId = studentId,
                     teacherId=teacherId,
-                    password=password
+                    password=password,
+                    department=department,
+                    semester=semester
                 )
 
 
@@ -255,7 +331,7 @@ fun Signup_page() {
                     Text("SIGNUP")
                 }
 
-                Spacer(modifier = Modifier.size(20.dp))
+                Spacer(modifier = Modifier.size(15.dp))
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,

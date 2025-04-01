@@ -25,13 +25,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val splashScreen= installSplashScreen()
-        splashScreen.setKeepOnScreenCondition{true}
 
-        CoroutineScope(Dispatchers.Main).launch {
-            delay(3000L)
-            splashScreen.setKeepOnScreenCondition{false}
-        }
         enableEdgeToEdge()
         WindowCompat.setDecorFitsSystemWindows(window,false)
         setContent {

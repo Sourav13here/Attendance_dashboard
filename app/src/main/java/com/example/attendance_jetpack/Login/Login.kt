@@ -21,7 +21,7 @@ class Login : ComponentActivity() {
         setContent{
             Attendance_JetpackTheme {
 
-                Login_page()
+                LoginPage()
 
             }
 

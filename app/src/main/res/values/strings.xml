@@ -49,4 +49,5 @@
     <string name="title_activity_verification_page">verification_page</string>
     <string name="title_activity_student_verification">Student_verification</string>
     <string name="title_activity_teacher_verification">Teacher_verification</string>
+    <string name="title_activity_cr_verificaiton">Cr_verificaiton</string>
 </resources>

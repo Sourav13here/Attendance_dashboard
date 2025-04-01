@@ -13,12 +13,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 
 object Login_Auth {
     private val auth = FirebaseAuth.getInstance()
     private val db=FirebaseFirestore.getInstance()
 
-    fun loginUser( context: Context, userId: String,
+    fun loginUser( context: Context,
+                   userId: String,
                    password: String,
                    role: String,
                    onLoginSuccess: () -> Unit,
@@ -30,7 +32,7 @@ object Login_Auth {
         auth.signInWithEmailAndPassword(generatedEmail,password)
             .addOnCompleteListener { task->
                 if(task.isSuccessful) {
-                    checkUserVerification(context, userId, role)
+                    checkUserVerification(context, role)
                     onLoginSuccess()
                 }
 
@@ -56,44 +58,68 @@ object Login_Auth {
 
 
 
-    private fun checkUserVerification(context: Context,userId: String,role: String){
-       db.collection(role).get().addOnSuccessListener { documents->
-           val userRef = db.collection(role).document(userId)
+    private fun checkUserVerification(context: Context,role: String) {
+        val user = auth.currentUser
+        val userId = user?.uid?:return
 
-           if (role=="Teacher"){
-               if(documents.isEmpty){
-                   userRef.set(mapOf("verified" to true))
-                   navigateToDashboard(context,role,true)
-               }
-               else{
-                   userRef.get().addOnSuccessListener { document ->
-                       if(document.exists() && document.getBoolean("verified")==true){
-                           navigateToDashboard(context,role,true)
-                       }
-                       else{
-                           navigateToDashboard(context,role,false)
-                       }
-                   }
-               }
-           }
-           else if (role=="Student"){
-               if(documents.isEmpty){
-                   userRef.set(mapOf("verified" to true,"Cr" to true))
-                   navigateToDashboard(context,role,true)
-               }
-               else{
-                   userRef.get().addOnSuccessListener { document->
-                       if(document.exists() && document.getBoolean("verified")==true){
-                           navigateToDashboard(context,role,true)
-                       }
-                       else{
-                           navigateToDashboard(context,role,false)
-                       }
-                   }
-               }
-           }
-       }
 
+            val userRef = db.collection(role).document(userId)
+
+            if (role == "Teacher") {
+                db.collection("Teacher").get().addOnSuccessListener { teacherDocs ->
+                    if (teacherDocs.isEmpty) {
+                        userRef.set(mapOf("verified" to true))
+                        navigateToDashboard(context, role, true)
+                    } else {
+                        userRef.get().addOnSuccessListener { document ->
+                            if (document.exists()) {
+
+                                if (document.getBoolean("verified") == true) {
+                                    navigateToDashboard(context, role, true)
+                                } else {
+                                    userRef.set(
+                                        mapOf(
+                                            "verified" to false), SetOptions.merge()
+                                    )
+                                    navigateToDashboard(context, role, false)
+                                }
+                            } else {
+                                // If user does not exist, set verified as false and CR as false
+                                userRef.set(mapOf("verified" to false))
+                                navigateToDashboard(context, role, false)
+                            }
+                        }
+                    }
+                }
+            } else if (role == "Student") {
+                db.collection("Student").get().addOnSuccessListener { studentDocs ->
+                    if (studentDocs.isEmpty) {
+                        userRef.set(mapOf("verified" to true, "Cr" to true))
+                        navigateToDashboard(context, role, true)
+                    } else {
+                        userRef.get().addOnSuccessListener { document ->
+                            if (document.exists()) {
+                                val isCr = document.getBoolean("Cr") ?: false
+                                if (document.getBoolean("verified") == true) {
+                                    navigateToDashboard(context, role, true)
+                                } else {
+                                    userRef.set(
+                                        mapOf(
+                                            "verified" to false, "Cr" to isCr), SetOptions.merge()
+                                    )
+                                    navigateToDashboard(context, role, false)
+                                }
+                            } else {
+                                // If user does not exist, set verified as false and CR as false
+                                userRef.set(mapOf("verified" to false, "Cr" to false))
+                                navigateToDashboard(context, role, false)
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
     }
 
 
@@ -117,4 +143,5 @@ object Login_Auth {
 
 
 
-}
+
+

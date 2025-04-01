@@ -25,6 +25,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -71,20 +72,7 @@ fun Home_screen() {
                         logo(R.drawable.logonew)
                     }
                 },
-                navigationIcon = {
-                    button(icon = R.drawable.baseline_menu_24)
-                },
-                actions = {
-                    IconButton(onClick = {
-                        val intent = Intent(content, Login::class.java)
-                        content.startActivity(intent)
 
-                    }) {
-                        Icon(painter = painterResource(id = R.drawable.profile),
-                            contentDescription = "",
-                            modifier = Modifier.size(32.dp))
-                    }
-                },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White,
                     titleContentColor = Color.Black
                 )
@@ -94,29 +82,22 @@ fun Home_screen() {
             )
         },
         bottomBar = {
-            BottomAppBar (
+            BottomAppBar(
                 contentColor = Color.Black,
                 containerColor = Color.White,
-                modifier = Modifier
-                    .height(80.dp)
-            ){
-                IconButton(onClick = {}, modifier = Modifier
-                    .padding(start = 40.dp)) {
-                    Icon(painter = painterResource(R.drawable.baseline_home_24),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .fillMaxSize())
+                modifier = Modifier.height(80.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Button(onClick = {
+                        val intent = Intent(content,Login::class.java)
+                        content.startActivity(intent)
+                    }) {
+                        Text(text = "Login/Signup")
+                    }
                 }
-                IconButton(onClick = {},
-                    modifier = Modifier
-                        .padding(start=200.dp)) {
-                    Icon(painter = painterResource(R.drawable.baseline_share_24),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .fillMaxSize()
-                            )
-                }
-
             }
         },
         content = { paddingValues ->
@@ -227,17 +208,6 @@ fun Home_screen() {
 }
 
 
-@Composable
-fun button(@DrawableRes icon: Int, tint: Color = Color.Unspecified) {
-    IconButton(onClick = { /* TODO: Add functionality */ }) {
-        Icon(
-            painter = painterResource(id = icon),
-            contentDescription = "Button Icon",
-            tint = tint,
-            modifier = Modifier.size(32.dp)
-        )
-    }
-}
 
 @Composable
 fun logo(@DrawableRes imageRes: Int) {

@@ -7,7 +7,7 @@ import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import com.example.attendance_jetpack.Login.Login
-import com.example.attendance_jetpack.Login.Login_page
+import com.example.attendance_jetpack.Login.LoginPage
 import com.example.attendance_jetpack.Student_dashboard
 import com.example.attendance_jetpack.Teacher_dashboard
 
@@ -26,7 +26,9 @@ object AuthManager {
         generatedEmail: String,
         password: String,
         userId: String,
-        role: String
+        role: String,
+        department:String="",
+        semester:String=""
     ) {
         Log.d("AuthManager", "Attempting to register user: $username with email: $generatedEmail")
 
@@ -53,6 +55,12 @@ object AuthManager {
 //                            .addOnFailureListener { e->
 //                                Log.e("AuthManager", "Failed to send verification email: ${e.message}")
 //                            }
+
+
+                        if(role=="Student"){
+                            userData["department"]=department
+                            userData["semester"]=semester
+                        }
 
 
 
